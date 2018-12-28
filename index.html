@@ -2,30 +2,31 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Math Flashcards</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="assets/style.css">
         <script src="assets/script.js" async></script>
     </head>
     <body>
+        <h1>Math Flashcards</h1>
         <div class="container">
-            <div class="card">
-                <div id="problemTop">
-                    
-                </div>
-                <div id="problemBottom">
-                    <div id="operation">
-                        +
-                    </div>
-                    <div id="bottomNumber">
-                        2
-                    </div>
-                </div>
-                <div id="problemAnswer">
-                        <input type="text" id="answerBox">
-                </div>
+            <div id="problemTop">
+                
             </div>
+            <div id="operation">
+                    +
+            </div>
+            <div id="bottomNumber">
+                
+            </div>
+            
+            <div id="problemAnswer">
+                <input type="text" id="answerBox">
+                <button id="checkAnswer" onclick="checkAnswer()">Check Answer</button>
+                <button id="newProblem" onclick="getProblem()">New Problem</button>
+            </div>
+            
         </div>
     </body>
 </html>
