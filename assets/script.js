@@ -1,54 +1,51 @@
-//generate random numbers
-function getRandomNumber(){
-    let minNum = 0;
-    let maxNum = 99;
-    let choice = document.getElementById("operationChoice");
-    let option = choice.options[choice.selectedIndex].innerHTML;
+//counters for accuracy display
+let correct = 0;
+let total = 0;
 
-    switch(option){
-        case "multiplication":
-            maxNum = 12;
-            break;
-//TODO: find way to generate divisible numbers, make sure subtraction results in positive or 0
-        case "division":
-            minNum = 1;
-            maxNum = 144;
-            break;
-    }
-    return Math.floor(Math.random() * (maxNum + 1) + minNum); 
+//generate random numbers
+let minNum = 0;
+let maxNum = 99;
+function getRandomNumber(){
+    let opSymbol = $("#operation").html();
+    let first = $("#problemTop").html();
+    let second = $("#bottomNumber").html();
+
+    return Math.floor(Math.random() * (maxNum + 1) + minNum);
 }
+
+$("#addition").on('click', function(e){
+    $("#operation").html("+");
+    minNum = 0;
+    maxNum = 99;
+    getProblem();
+})
+
+$("#subtraction").on('click', function(e){
+    $("#operation").html("-");
+    getProblem();
+})
+
+$("#multiplication").on('click', function(e){
+    $("#operation").html("x");
+    maxNum = 12;
+    getProblem();
+})
+
+$("#division").on('click', function(e){
+    $("#operation").html("÷");
+    minNum = 1;
+    maxNum = 144;
+    getProblem();
+})
 
 //assign random numbers to top and bottom
 function getProblem(){
-    let choice = document.getElementById("operationChoice");
-    let option = choice.options[choice.selectedIndex].innerHTML;
     let topNumber = document.getElementById("problemTop").innerHTML;
-    let bottomNumber = $("#bottomNumber").text();
-    
+    let bottomNumber = $("#bottomNumber").text();    
+
     $("#problemTop").html(getRandomNumber());
     $("#bottomNumber").html(getRandomNumber());
     $("#answerBox").val("");
-}
-
-//choose which operation to practice based on user input
-function chooseOperation(selTag){
-    getProblem();
-    const selected = selTag.options[selTag.selectedIndex].text;
-    
-    switch(selected){
-        case "addition":
-            $("#operation").html("+");
-            break;
-        case "subtraction":
-            $("#operation").html("-");
-            break;
-        case "multiplication":
-            $("#operation").html("x");
-            break;
-        case "division":
-            $("#operation").html("÷");
-            break;
-    };
 }
 
 //submit answer with enter key
@@ -60,15 +57,32 @@ input.addEventListener("keyup",function(e){
     };
 });
 
+//increment both correct and total counters after correct answer
+function countCorrect(){
+    correct++;
+    return correct;
+}
+
+//increment total counter after incorrect answer
+function countTotal(){
+    total++;
+    return total;
+}
+
 //highlights accuracy count in green, gets new problem
 function markCorrect(){
-    $("body").addClass("green").removeClass("red");
+    $(".card").addClass("green").removeClass("red");
+    $("#feedback").html("Nice!");
+    countCorrect();
+    countTotal();
     return getProblem();
 }
 
 //highlights accuracy count in red, clears input field
 function markIncorrect(){
-    $("body").addClass("red").removeClass("green");
+    $(".card").addClass("red").removeClass("green");
+    $("#feedback").html("Try again!");
+    countTotal();
     $("#answerBox").val("");
 }
 
@@ -78,6 +92,7 @@ function checkAnswer(){
     let topNumber = $("#problemTop").html();
     let bottomNumber = $("#bottomNumber").html();
     let answer = $("#answerBox").val();
+
 //TODO: update correct and total after each question
     
     switch(operation){
@@ -110,6 +125,8 @@ function checkAnswer(){
             };
             break;
     };
+
+    return $("#accuracy").html("Accuracy: " + Math.floor((correct/total)*100) + "%");
 }
 
 

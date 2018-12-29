@@ -5,6 +5,7 @@
         <title>Math Flashcards</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="assets/style.css">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -13,50 +14,60 @@
     </head>
     <body>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-center">Math Flashcards</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col text-center" id="problemTop"></div>
-            </div>
-            <div class="row mb-2">
-                <div class="col text-right p-0" id="operation">+</div>
-                <div class="col text-left p-0" id="bottomNumber"></div>
-            </div>
-            <div class="row justify-content-center mb-2">
-                <div id="problemAnswer">
-                    <input type="text" id="answerBox">
-                </div>
-            </div>
-            <div class="row justify-content-center mb-2">
-                <button id="checkAnswer" onclick="checkAnswer()">Check Answer</button>
-                <button id="newProblem" onclick="getProblem()">New Problem</button>
-            </div>
             <div class="row justify-content-center">
-                <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Choose your operation
-                        </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">addition</a>
-                        <a class="dropdown-item" href="#">subtraction</a>
-                        <a class="dropdown-item" href="#">multiplication</a>
-                        <a class="dropdown-item" href="#">division</a>
+                <div class="card border-secondary w-50 m-3">
+                    <div class="card-body">
+                        <h1 class="card-title text-center h5" id="h1">Math Flashcards</h1>
+                        <div class="row">
+                            <div class="col-6 p-0"> </div>
+                            <div class="col-6 justify-content-center m-0 p-0">
+                                <div class="col p-0" id="problemTop"></div>
+                            </div> 
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6 text-right p-0">
+                            <div class="col p-0 lg-h1 pr-4" id="operation">+</div>
+                        </div>
+                        <div class="col-6 text-left p-0">
+                            <div class="col p-0" id="bottomNumber"></div>
+                        </div>
+                        
+                    </div>
+                    <div class="row justify-content-center mb-2">
+                        <div id="problemAnswer">
+                            <input type="text" id="answerBox">
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button class="btn btn-secondary mb-2 mb-md-0 mr-md-2 mr-lg-2" id="checkAnswer" onclick="checkAnswer()">Check Answer</button>
+                        <button class="btn btn-secondary mb-1 mb-md-0 ml-lg-2" id="newProblem" onclick="getProblem()">New Problem</button>
+                    </div>
+                    <div class="row justify-content-center mb-2">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Operation</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button" id="addition">addition</button>
+                                    <button class="dropdown-item" type="button" id="subtraction">subtraction</button>
+                                    <button class="dropdown-item" type="button" id="multiplication">multiplication</button>
+                                    <button class="dropdown-item" type="button" id="division">division</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center h5" id="feedback"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center h5" id="accuracy">
+                            Accuracy: 
+                        </div>
+                    </div>
+                        
+                    
+                        
                 </div>
             </div>
-            
 
-
-            <div class="row justify-content-center">
-                <select name="operationChoice" id="operationChoice" onchange="chooseOperation(this)">
-                    <option value="addition">addition</option>
-                    <option value="subtraction">subtraction</option>
-                    <option value="multiplication">multiplication</option>
-                    <option value="division">division</option>
-                </select>
             </div>
         </div>
 

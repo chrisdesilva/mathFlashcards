@@ -1,11 +1,63 @@
+h1 {
+    font-family: 'Permanent Marker', cursive;
+    text-decoration: underline;
+}
+
+div {
+    font-family: 'Permanent Marker', cursive;
+}
+
+button {
+    font-family: "Proxima Nova";
+    text-transform: uppercase;
+}
+
 .red {
-    background: #EF3B36;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #FFFFFF, #EF3B36);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #FFFFFF, #EF3B36); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: red;
+    transition: all 500ms ease-in-out;
 }
 
 .green {
-    background: #FDFC47;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #24FE41, #FDFC47);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #24FE41, #FDFC47); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: green;
+    transition: all 500ms ease-in-out;
 }
+
+@media only screen and (min-width: 768px) {
+    #h1 {
+      font-size: 50px;
+    }
+
+    body {
+        font-size: 60px;
+    }
+
+    .btn {
+        font-size: 20px;
+        width: 200px;
+    }
+
+    input {
+        width: 300px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    #h1 {
+      font-size: 30px;
+    }
+
+    body {
+        font-size: 45px;
+    }
+
+    .btn {
+        font-size: 12px;
+        width: 125px;
+        height: 30px;
+    }
+
+    input {
+        width: 150px;
+        height: 50px;
+    }
+  }
