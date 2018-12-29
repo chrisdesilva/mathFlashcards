@@ -1,15 +1,33 @@
 //generate random numbers
 function getRandomNumber(){
-    const minNum = 0;
-    const maxNum = 100;
-    return Math.floor(Math.random() * (maxNum +1) + minNum); 
+    let minNum = 0;
+    let maxNum = 99;
+    let choice = document.getElementById("operationChoice");
+    let option = choice.options[choice.selectedIndex].innerHTML;
+
+    switch(option){
+        case "multiplication":
+            maxNum = 12;
+            break;
+//TODO: find way to generate divisible numbers, make sure subtraction results in positive or 0
+        case "division":
+            minNum = 1;
+            maxNum = 144;
+            break;
+    }
+    return Math.floor(Math.random() * (maxNum + 1) + minNum); 
 }
 
 //assign random numbers to top and bottom
 function getProblem(){
-    document.getElementById("problemTop").innerHTML = getRandomNumber();
-    document.getElementById("bottomNumber").innerHTML = getRandomNumber();
-    document.getElementById("answerBox").value = "";
+    let choice = document.getElementById("operationChoice");
+    let option = choice.options[choice.selectedIndex].innerHTML;
+    let topNumber = document.getElementById("problemTop").innerHTML;
+    let bottomNumber = $("#bottomNumber").text();
+    
+    $("#problemTop").html(getRandomNumber());
+    $("#bottomNumber").html(getRandomNumber());
+    $("#answerBox").val("");
 }
 
 //choose which operation to practice based on user input
@@ -17,40 +35,82 @@ function chooseOperation(selTag){
     getProblem();
     const selected = selTag.options[selTag.selectedIndex].text;
     
-    if(selected == "addition"){
-        document.getElementById("operation").innerHTML = "+";
-    } else if (selected === "subtraction"){
-        document.getElementById("operation").innerHTML = "-";
-    } else if (selected === "multiplication"){
-        document.getElementById("operation").innerHTML = "x";
-    } else if (selected === "division"){
-        document.getElementById("operation").innerHTML = "÷";
-    } else if (selected === "random"){
-        const opArr = ["+", "-", "x", "÷"];
-        const randomOp = opArr[Math.floor(Math.random()*opArr.length)];
-        document.getElementById("operation").innerHTML = randomOp;
-    }
+    switch(selected){
+        case "addition":
+            $("#operation").html("+");
+            break;
+        case "subtraction":
+            $("#operation").html("-");
+            break;
+        case "multiplication":
+            $("#operation").html("x");
+            break;
+        case "division":
+            $("#operation").html("÷");
+            break;
+    };
 }
 
-//check if addition problem is correct
-function checkAddition(){
-    let topNumber = document.getElementById("problemTop").innerHTML;
-    let bottomNumber = document.getElementById("bottomNumber").innerHTML;
-    let answer = document.getElementById("answerBox").value;
+//submit answer with enter key
+const input = document.getElementById("answerBox");
+input.addEventListener("keyup",function(e){
+    e.preventDefault();
+    if(e.keyCode === 13){
+        $("#checkAnswer").click();
+    };
+});
 
-    if(Number(topNumber) + Number(bottomNumber) === Number(answer)){
-        alert("Nice!");
-        return getProblem();
-    } else {
-        alert("Try again!");
-    }
+//highlights accuracy count in green, gets new problem
+function markCorrect(){
+    $("body").addClass("green").removeClass("red");
+    return getProblem();
 }
-//check problem type, then read top, bottom, and answer numbers to tell user if answer is correct
+
+//highlights accuracy count in red, clears input field
+function markIncorrect(){
+    $("body").addClass("red").removeClass("green");
+    $("#answerBox").val("");
+}
+
+//check problem type, then tell user if answer is correct
 function checkAnswer(){
-    let operation = document.getElementById("operation").innerHTML;
-    if(operation === "+"){
-        checkAddition()
-    }
+    let operation = $("#operation").html();
+    let topNumber = $("#problemTop").html();
+    let bottomNumber = $("#bottomNumber").html();
+    let answer = $("#answerBox").val();
+//TODO: update correct and total after each question
+    
+    switch(operation){
+        case "+":       
+            if(Number(topNumber) + Number(bottomNumber) === Number(answer)){
+                markCorrect();
+            } else {
+                markIncorrect();
+            };
+            break;
+        case "-":
+            if(Number(topNumber) - Number(bottomNumber) === Number(answer)){
+                markCorrect();
+            } else {
+                markIncorrect();
+            };
+            break;
+        case "x":
+            if(Number(topNumber) * Number(bottomNumber) === Number(answer)){
+                markCorrect();
+            } else {
+                markIncorrect();
+            };
+            break;
+        case "÷":
+            if(Number(topNumber) / Number(bottomNumber) === Number(answer)){
+                markCorrect();
+            } else {
+                markIncorrect();
+            };
+            break;
+    };
 }
 
-window.onload = getProblem;
+
+window.onload = getProblem();
