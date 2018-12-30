@@ -1,52 +1,116 @@
-//counters for accuracy display
-let correct = 0;
-let total = 0;
+let topNumber = 0;
+let bottomNumber = 0;
+let divisor = 0;
+let dividend = 0;
+let opSym = $("#operation");
+let problemTop = $("#problemTop");
+let problemBottom = $("#bottomNumber");
 
-//generate random numbers
-let minNum = 0;
-let maxNum = 99;
-function getRandomNumber(){
-    let opSymbol = $("#operation").html();
-    let first = $("#problemTop").html();
-    let second = $("#bottomNumber").html();
-
-    return Math.floor(Math.random() * (maxNum + 1) + minNum);
+//generate top and bottom numbers for addition, subtraction, and multiplication problems
+function generateTop(min, max){
+    topNumber = Math.floor(Math.random() * (max - min) + min);
+    if(topNumber < 10){
+        topNumber = "0" + topNumber;
+    }
+    return topNumber;
 }
 
-$("#addition").on('click', function(e){
-    $("#operation").html("+");
-    minNum = 0;
-    maxNum = 99;
-    getProblem();
-})
+function generateBottom(min, max){
+    bottomNumber = Math.floor(Math.random() * (max - min) + min);
+    if(bottomNumber < 10){
+        bottomNumber = "0" + bottomNumber;
+    }
+    
+    return bottomNumber;
+}
 
-$("#subtraction").on('click', function(e){
-    $("#operation").html("-");
-    getProblem();
-})
+//generate random numbers for division problems; dividend is top number, divisor is bottom
+function generateDividend(min, max){
+    dividend = Math.floor(Math.random() * (max - min) + min);
+    if(dividend < 10){
+        dividend = "0" + dividend;
+    }
+    return dividend;
+}
 
-$("#multiplication").on('click', function(e){
-    $("#operation").html("x");
-    maxNum = 12;
-    getProblem();
-})
+function generateDivisor(min, max){
+    divisor = Math.floor(Math.random() * (max - min) + min);
+    if(divisor < 10){
+        divisor = "0" + divisor;
+    }
+    if(dividend % divisor){
+        generateDivisor(min, max);
+    }
+    
+    return divisor;
+}
 
-$("#division").on('click', function(e){
-    $("#operation").html("÷");
-    minNum = 1;
-    maxNum = 144;
-    getProblem();
-})
-
-//assign random numbers to top and bottom
 function getProblem(){
-    let topNumber = document.getElementById("problemTop").innerHTML;
-    let bottomNumber = $("#bottomNumber").text();    
-
-    $("#problemTop").html(getRandomNumber());
-    $("#bottomNumber").html(getRandomNumber());
-    $("#answerBox").val("");
+    
+    switch(opSym.html()){
+        case "+":
+            addition();
+            break;
+        case "-":
+            subtraction();
+            break;
+        case "x":
+            multiplication();
+            break;
+        case "÷":
+            division();
+            break;  
+    };
 }
+
+function addition(){
+    problemTop.html(generateTop(0, 100));
+    problemBottom.html(generateBottom(0, 100));
+    opSym.html("+");
+    
+    $("#addition").on('click', function(e){
+        opSym.html("+");
+        problemTop.html(generateTop(0, 100));
+        problemBottom.html(generateBottom(0, 100));
+    });
+}
+
+function subtraction(){
+    problemTop.html(generateTop(0, 100));
+    problemBottom.html(generateBottom(0, topNumber));
+    opSym.html("-");
+
+    $("#subtraction").on('click', function(e){
+        opSym.html("-");
+        problemTop.html(generateTop(0, 100));
+        problemBottom.html(generateBottom(0, topNumber));
+    });
+}
+
+function multiplication(){
+    problemTop.html(generateTop(0, 15));
+    problemBottom.html(generateBottom(0, 15));
+    opSym.html("x");
+
+    $("#multiplication").on('click', function(e){
+        opSym.html("x");
+        problemTop.html(generateTop(0, 12));
+        problemBottom.html(generateBottom(0, 12));
+    });
+}
+
+function division(){
+    problemTop.html(generateDividend(1, divisor * 12));
+    problemBottom.html(generateDivisor(1, 12));
+    opSym.html("÷");
+
+    $("#division").on('click', function(e){
+        problemTop.html(generateDividend(1, divisor * 12));
+        problemBottom.html(generateDivisor(1, 12));
+        opSym.html("÷");
+    });
+}
+
 
 //submit answer with enter key
 const input = document.getElementById("answerBox");
@@ -57,6 +121,10 @@ input.addEventListener("keyup",function(e){
     };
 });
 
+//counters for accuracy display
+let correct = 0;
+let total = 0;
+
 //increment both correct and total counters after correct answer
 function countCorrect(){
     correct++;
@@ -66,6 +134,7 @@ function countCorrect(){
 //increment total counter after incorrect answer
 function countTotal(){
     total++;
+    $("#totalAnswered").html("Answered: " + total);
     return total;
 }
 
@@ -75,7 +144,7 @@ function markCorrect(){
     $("#feedback").html("Nice!");
     countCorrect();
     countTotal();
-    return getProblem();
+    $("#answerBox").val("");
 }
 
 //highlights accuracy count in red, clears input field
@@ -99,6 +168,7 @@ function checkAnswer(){
         case "+":       
             if(Number(topNumber) + Number(bottomNumber) === Number(answer)){
                 markCorrect();
+                addition();
             } else {
                 markIncorrect();
             };
@@ -106,6 +176,7 @@ function checkAnswer(){
         case "-":
             if(Number(topNumber) - Number(bottomNumber) === Number(answer)){
                 markCorrect();
+                subtraction();
             } else {
                 markIncorrect();
             };
@@ -113,6 +184,7 @@ function checkAnswer(){
         case "x":
             if(Number(topNumber) * Number(bottomNumber) === Number(answer)){
                 markCorrect();
+                multiplication();
             } else {
                 markIncorrect();
             };
@@ -120,6 +192,7 @@ function checkAnswer(){
         case "÷":
             if(Number(topNumber) / Number(bottomNumber) === Number(answer)){
                 markCorrect();
+                division();
             } else {
                 markIncorrect();
             };
@@ -130,4 +203,4 @@ function checkAnswer(){
 }
 
 
-window.onload = getProblem();
+window.onload = division(), subtraction(), multiplication(), addition() 
